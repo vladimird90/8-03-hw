@@ -30,7 +30,30 @@
 
 **Решение:**
 
+.gitlab-ci.yml:
+```
+stages:
+  - test
+  - build
 
+test_app:
+  stage: test
+  image: golang:1.17
+  script:
+    - go test .
+  tags:
+    - neto
+
+build_app:
+  stage: build
+  image: docker:latest
+  script:
+    - docker build .
+  tags:
+    - neto
+```
+
+![img](img/8-03-2-1.png)
 
 ---
 
@@ -44,3 +67,32 @@
 В качестве ответа добавьте в шаблон с решением файл gitlab-ci.yml своего проекта или вставьте код в соответсвующее поле в шаблоне.
 
 **Решение:**
+
+.gitlab-ci.yml:
+```
+stages:
+  - test
+  - build
+
+test_app:
+  stage: test
+  image: golang:1.17
+  script:
+    - go test .
+  tags:
+    - neto
+  rules:
+    - changes:
+      - "**/*.go"
+
+build_app:
+  stage: build
+  image: docker:latest
+  script:
+    - docker build .
+  tags:
+    - neto
+  needs: []
+  ```
+
+![img](img/8-03-3-1.png)
